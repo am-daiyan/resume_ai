@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+*.sqlite3
+db.sqlite3
+/staticfiles/
+/media/
+/media/*
+
+# Virtual env
+venv/
+env/
+.venv/
+test/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Django migrations cache
+*/migrations/__pycache__/
