@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Students</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll_no</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in form %}
+            <tr>
+                <td>{{ n.name }}</td>
+                <td>{{ n.roll_no }}</td>
+            </tr>
+            {% empty %}
+                <span class="text-center text-danger m-3">No Record Found</span>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

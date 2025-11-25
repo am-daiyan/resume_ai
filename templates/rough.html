@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>FILE PREVIEW</h1>
+{% if ".pdf" in prev.resume_file.url %}
+    <iframe src="http://127.0.0.1:8000{{ prev.resume_file.url }}" width="100%" height="600"></iframe>
+{% elif ".docx" in prev.resume_file.url %}
+    <iframe 
+    src="https://docs.google.com/gview?url=http://127.0.0.1:8000{{ prev.resume_file.url }}&embedded=true" 
+    style="width:100%; height:600px;" 
+    frameborder="0">
+</iframe>
+
+{% else %}
+    <p>File format not supported for inline preview.</p>
+{% endif %}
+
+
+{% endblock %}

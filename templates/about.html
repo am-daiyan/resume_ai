@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card rounded-lg px-5 py-3 bg-light" style="border: 2px solid #198754; box-shadow: 0 0.5rem 1rem rgba(25, 135, 84, 0.5);">
+              <div class="card-body">
+                <h1 class="card-title mb-3 text-center fw-bold">About Resume AI</h1>
+                <div class="card-text text-muted fs-5">
+                  <p>
+                      Resume AI is a Django-based web application designed to help users analyze and improve their resumes using Artificial Intelligence.
+                      The goal is to simplify resume reviews, highlight strengths, and provide actionable suggestions.
+                  </p>
+                  <p>
+                      This project is built to demonstrate how AI models can be integrated with Django to create
+                      real-world applications. It extracts text from uploaded PDF and DOCX files, sends it to an AI API for analysis,
+                      and displays a clean preview of recommendations.
+                  </p>
+                </div>
+
+                <h4 class="mt-4">Key Features</h4>
+                <ul class="text-muted fs-5">
+                    <li>Upload resumes in PDF or DOCX format.</li>
+                    <li>Automatic text extraction and preview.</li>
+                    <li>AI-powered resume analysis and feedback.</li>
+                    <li>Simple, user-friendly interface built with Bootstrap.</li>
+                </ul>
+
+                <hr class="my-4">
+
+
+                <h4 class="mt-4">Why This Project?</h4>
+                <p class="card-text text-muted fs-5">
+                    This project is not just about building an app, but about learning how to integrate AI APIs into Django efficiently.
+                    It demonstrates file handling, template rendering, and API communication — skills crucial for any modern web developer.
+                </p>
+
+                <p class="mt-3"><strong>Developer:</strong> Daiyan Ali Abbas</p>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

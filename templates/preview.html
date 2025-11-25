@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 pt-4 mb-4">
+            <h3 class="mb-4 text-center">Resume Preview</h3>
+            <div class="card border-danger" style="border: 2px solid #dc3545; box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.5);">
+              <div class="card-body" style="max-height: 77vh; overflow-y: auto;">
+                <pre style="white-space: pre-wrap;">{{ text }}</pre>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6 pt-4 mb-4">
+            {% if ai_output %}
+                <h3 class="mb-4 text-center">AI Analysis Output:</h3>
+                <div class="card border-primary" style="border: 2px solid #0d6efd; box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.5);">
+                    <div class="card-body" style="max-height: 77vh; overflow-y: auto;">
+                        <pre class="p-2
+                         rounded" style="white-space: pre-wrap;">{{ ai_output }}</pre>
+                    </div>
+                </div>
+            {% else %}
+                <form method="POST" class="d-flex justify-content-center align-items-center">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg">Analyse with AI</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

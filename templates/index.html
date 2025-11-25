@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <div class="container-fluid">
+        <div class="row pt-3">
+            <div class="col-6 offset-1">
+
+                        <h6>RESUME ANALYSER</h6>
+                        <h1 class="display-3 fw-bold">Is your resume good enough?</h1>
+                        <div>
+                            <p class="text-muted pr-5" style="font-size:17px;">A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform and get you interview callbacks</p>
+                        </div>
+                        <div class="card border border-dashed border-success rounded text-center px-5 py-3 shadow-sm" style="width:30rem;">
+                            <div class="px-4 py-2 d-flex flex-column gap-5">
+                                <div class="mb-3  text-center">
+                                    <p class="card-text" style="color:#36454F;">Drop your resume here or choose a file.PDF & DOCX only. Max 2MB file size.</p>
+                                </div>
+                                <div class="mb-3" >
+                                    <form action="/" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <label for="fileInput" class="btn btn-success">Upload Your Resume</label>
+                                        {{ form.resume_file }}
+                                    </form>
+
+                                </div>
+                                <div class="text-muted"><h6 class="text-center"><i class="fa-solid fa-lock"></i> Privacy guaranted</h6></div>
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
