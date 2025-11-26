@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import details,resume
-from .forms import student_details,resume_upload
+from .models import details,resume,ContactMessage
+from .forms import student_details,resume_upload,ContactForm
 from .utils import extract_text
 from .ai_prompts import SYSTEM_PROMPT, USER_TEMPLATE
 import requests
@@ -26,9 +26,6 @@ def rough(requests):
 
 def about(request):
     return render(request,"about.html")
-
-def contact_us(request):
-    return render(request,"contact-us.html")
 
 def privacy_policy(request):
     return render(request,"Privacy_Policy.html")
@@ -88,5 +85,25 @@ def list(request):
 def student_d(requests):
     form=details.objects.all()
     return render(requests,"student_details.html",{'form':form})
+
+
+def contact_us(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your message has been sent successfully! We will get back to you soon.")
+            return redirect('contact_us')  # Redirect to prevent resubmission
+    else:
+        form = ContactForm()
+
+    # We can fetch developer info here if needed, but keeping it simple for now.
+    developer_info = {
+        'email': 'daiyanali551@gmail.com',  # Placeholder
+        'github': 'Daiyan Ali Abbas',
+        'location': 'India',
+    }
+
+    return render(request, "contact-us.html", {'form': form, 'developer_info': developer_info})
 
 
