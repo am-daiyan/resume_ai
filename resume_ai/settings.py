@@ -24,13 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s57uxzj^y=x5(lf2q*d$jg)3&!$hrq4*_yn&%2o9wsxfrx^=u8'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -81,19 +80,11 @@ WSGI_APPLICATION = 'resume_ai.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'resume_ai',
-        'USER': 'root',
-        'PASSWORD': '',
-        'OPTIONS':{
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
-            'charset': 'utf8mb4',
-            'autocommit':True,
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -126,12 +117,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "../Static",]
-# MEDIA_URL = '//'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static",]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # STATICFILES_DIRS = [BASE_DIR / "static",]
 
 # Default primary key field type
@@ -150,11 +141,11 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'           # For Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'millionaireminds143@gmail.com'
-EMAIL_HOST_PASSWORD = 'tngw uzud dhzh rcbn'
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")

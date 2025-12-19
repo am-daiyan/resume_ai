@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import logout
 from .models import details,resume,ContactMessage
 from .forms import student_details,resume_upload,ContactForm
 from .utils import extract_text
@@ -8,6 +11,9 @@ from .ai_prompts import SYSTEM_PROMPT, USER_TEMPLATE
 import requests
 from django.http import JsonResponse
 import os
+from django.core.mail import send_mail
+from django.conf import settings
+import markdown
 
 import json
 # Create your views here.
@@ -36,6 +42,48 @@ def terms(request):
 def FAQs(request):
     return render(request,"FAQs.html")
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            messages.success(request, "Account created successfully! Welcome.")
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+        # FIX: Apply Bootstrap class to fields
+        for field in form.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+    return render(request, 'signup.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                messages.info(request, f"Welcome back, {username}!")
+                return redirect('home')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = AuthenticationForm()
+        # FIX: Apply Bootstrap class to fields
+        for field in form.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+    return render(request, 'login.html', {'form': form})
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('home')
+
 def preview(request,id):
     prev=resume.objects.get(id=id)
     file_path=prev.resume_file.path
@@ -52,7 +100,7 @@ def preview(request,id):
         }
 
         data = {
-            "model": "google/gemma-3-27b-it:free",
+            "model": "deepseek/deepseek-r1-0528:free",
             "max_tokens":8000,
             "messages": [
                 SYSTEM_PROMPT,
@@ -63,7 +111,11 @@ def preview(request,id):
         resp = requests.post(url, headers=headers, json=data)
         res_json = resp.json()
         if "choices" in res_json:
-            ai_output = res_json["choices"][0]["message"]["content"]
+            raw_output = res_json["choices"][0]["message"]["content"]
+            ai_output = markdown.markdown(
+                raw_output,
+                extensions=["extra"]
+            )
         else:
             ai_output = "Error: Could not get AI response"
     return render(request, "preview.html", {
@@ -91,9 +143,25 @@ def contact_us(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Your message has been sent successfully! We will get back to you soon.")
-            return redirect('contact_us')  # Redirect to prevent resubmission
+            contact = form.save()
+
+            send_mail(
+                subject=f"New Contact Message: {contact.subject}",
+                message=f"""
+        Name: {contact.name}
+        Email: {contact.email}
+
+        Message:
+        {contact.message}
+        """,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=['daiyanali551@gmail.com'],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact_us')
+    # Redirect to prevent resubmission
     else:
         form = ContactForm()
 

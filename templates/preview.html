@@ -1,31 +1,126 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="container-fluid">
+
+<!-- Page-specific styles -->
+<style>
+/* ===== Layout ===== */
+.preview-container {
+    padding: 20px;
+}
+
+/* ===== Resume Preview ===== */
+.resume-card {
+    border: 2px solid #dc3545;
+    box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.35);
+}
+
+.resume-content {
+    max-height: 77vh;
+    overflow-y: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+}
+
+/* ===== AI Analysis ===== */
+.ai-card {
+    border: 2px solid #0d6efd;
+    box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.35);
+}
+
+.ai-content {
+    max-height: 77vh;
+    overflow-y: auto;
+}
+
+/* ===== AI Report Styling ===== */
+.ai-report {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    line-height: 1.7;
+    color: #1f2937;
+}
+
+/* Section headings (###) */
+.ai-report h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-left: 0.75rem;
+    border-left: 5px solid #198754;
+    color: #14532d;
+    font-weight: 700;
+}
+
+/* Bullet list reset */
+.ai-report ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Individual points */
+.ai-report li {
+    background: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+/* Highlighted keywords */
+.ai-report strong {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* Analyse button */
+.analyse-btn {
+    min-height: 200px;
+}
+</style>
+
+<div class="container-fluid preview-container">
     <div class="row">
+
+        <!-- LEFT: Resume Preview -->
         <div class="col-md-6 pt-4 mb-4">
             <h3 class="mb-4 text-center">Resume Preview</h3>
-            <div class="card border-danger" style="border: 2px solid #dc3545; box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.5);">
-              <div class="card-body" style="max-height: 77vh; overflow-y: auto;">
-                <pre style="white-space: pre-wrap;">{{ text }}</pre>
-              </div>
+
+            <div class="card resume-card">
+                <div class="card-body resume-content">
+                    <pre class="mb-0">{{ text }}</pre>
+                </div>
             </div>
         </div>
+
+        <!-- RIGHT: AI Analysis -->
         <div class="col-md-6 pt-4 mb-4">
+
             {% if ai_output %}
-                <h3 class="mb-4 text-center">AI Analysis Output:</h3>
-                <div class="card border-primary" style="border: 2px solid #0d6efd; box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.5);">
-                    <div class="card-body" style="max-height: 77vh; overflow-y: auto;">
-                        <pre class="p-2
-                         rounded" style="white-space: pre-wrap;">{{ ai_output }}</pre>
+                <h3 class="mb-4 text-center">AI Analysis Report</h3>
+
+                <div class="card ai-card">
+                    <div class="card-body ai-content">
+                        <div class="ai-report">
+                            {{ ai_output|safe }}
+                        </div>
                     </div>
                 </div>
+
             {% else %}
-                <form method="POST" class="d-flex justify-content-center align-items-center">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary btn-lg">Analyse with AI</button>
-                </form>
+                <div class="d-flex justify-content-center align-items-center analyse-btn">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                            Analyse with AI
+                        </button>
+                    </form>
+                </div>
             {% endif %}
+
         </div>
+
     </div>
 </div>
+
 {% endblock %}

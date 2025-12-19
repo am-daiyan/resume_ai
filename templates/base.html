@@ -8,7 +8,7 @@
 <title>Bootstrap tutorial</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link href= "{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet"  />
-<link rel="stylesheet" href="/static/css/all.css"/>
+<link rel="stylesheet" href="{% static 'css/all.css' %}"/>
 <script src="{% static 'js/jquery.js' %}" type="text/javascript" ></script>
 <script src="{% static 'js/all.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}" type="text/javascript" ></script>
@@ -78,13 +78,10 @@ right side menu-->
 
  <ul class="navbar-nav ml-auto" >
        {% if user.is_authenticated %}
-     <li class="nav-item"><a href="/logout" class="nav-link {% if request.path == '/logout' %} ac {% endif %}"><i style="color:#FF0000;font-size:30px;" class="fas fa-user"></i>Logout</a></li>
-     <li class="nav-item"><a href="#" class="nav-link {% if request.path == '/addstudent' %} ac {% endif %}"><i style="color:#FF0000;font-size:30px;" class="fas fa-user"></i>Add Student</a></li>
-     <li class="nav-item"><a href="/viewstudentDetails" class="nav-link {% if request.path == '/viewstudentDetails' %} ac {% endif %}"><i style="color:#FF0000;font-size:30px;" class="fas fa-user"></i>View Student</a></li>
-
+     <li class="nav-item"><a href="/logout" class="nav-link {% if request.path == '/logout' %} ac {% endif %}"><i style="font-size: 0.85rem;" class="fas fa-user mr-2"></i>Logout</a></li>
       {% else %}
-   <li class="nav-item mx-2"><a href="#" class="nav-link {% if request.path == '#' %} active ac {% endif %}"><i class="fas fa-user mr-2"></i>Login</a></li>
-   <li class="nav-item mx-2"><a href="#" class="nav-link {% if request.path == '#' %} active ac {% endif %}"><i class="fas fa-car mr-2 "></i>Signup</a></li>
+   <li class="nav-item mx-2"><a href="/login" class="nav-link {% if request.path == '#' %} active ac {% endif %}"><i class="fa-regular fa-circle-user mr-2"></i>Login</a></li>
+   <li class="nav-item mx-2"><a href="/signup" class="nav-link {% if request.path == '#' %} active ac {% endif %}"><i class="fa-solid fa-circle-user mr-2"></i>Signup</a></li>
      {% endif %}
 
  </ul>

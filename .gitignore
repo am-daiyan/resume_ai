@@ -3,29 +3,17 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+env/
+venv/
 
 # Django
-*.sqlite3
 db.sqlite3
-/staticfiles/
-/media/
-/media/*
+staticfiles/
+media/
 
-# Virtual env
-venv/
-env/
-.venv/
-test/
+# Environment variables
+.env
 
-# IDEs
-.vscode/
-.idea/
-*.iml
-*.code-workspace
-
-# OS files
+# OS
 .DS_Store
 Thumbs.db
-
-# Django migrations cache
-*/migrations/__pycache__/
