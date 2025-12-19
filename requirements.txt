@@ -17,7 +17,6 @@ idna==3.10
 jiter==0.10.0
 lxml==6.0.0
 Markdown==3.10
-mysqlclient==2.2.7
 packaging==25.0
 pillow==11.3.0
 pydantic==2.11.7
