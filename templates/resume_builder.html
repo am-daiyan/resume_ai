@@ -1,10 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>HELLO</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+/* ================= GLOBAL ================= */
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  background: #f1f2f6;
+}
+
+/* ================= RESUME ================= */
+.print-sheet {
+  background: #ffffff;
+
+  /* A4 size */
+  width: 210mm;
+  height: 297mm;
+
+  /* Center preview */
+  margin: 0;
+  padding: 0;
+}
+
+.resume {
+  background: #ffffff;
+  padding: 32px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+
+  /* A4 size */
+  width: 210mm;
+  height: 297mm;
+
+  /* Needed for scaling*/
+  transform-origin: top left;
+}
+
+/* Header */
+.resume-header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 3px solid #2c3e50;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.resume-header img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2c3e50;
+}
+
+.resume-info h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.resume-info p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* Section headings */
+.resume h2 {
+  background: #2c3e50;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 16px;
+  margin-top: 24px;
+}
+
+/* Text */
+.resume p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+/* Table */
+.resume table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.resume table,
+.resume th,
+.resume td {
+  border: 1px solid #000;
+}
+
+.resume th,
+.resume td {
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Footer */
+.resume-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+/* ================= PRINT (CORRECT) ================= */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* Hide everything visually */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Show only resume */
+  .print-sheet,
+  .print-sheet * {
+    visibility: visible !important;
+  }
+
+  /* Position print sheet */
+  .print-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    padding: 15mm;
+  }
+
+  .resume {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Hide interactive elements */
+  button,
+  input,
+  textarea {
+    display: none !important;
+  }
+}
+</style>
+
+<div class="container-fluid py-0">
+  <div class="row gx-4">
+
+    <!-- ================= LEFT: EDITOR ================= -->
+    <div class="col-12 col-lg-4">
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <h5 class="text-center fw-bold mb-3">Resume Input</h5>
+
+          <input class="form-control mb-2" placeholder="Full Name"
+                 oninput="setText('name',this.value)">
+          <input class="form-control mb-2" placeholder="Phone"
+                 oninput="setText('phone',this.value)">
+          <input class="form-control mb-2" placeholder="Email"
+                 oninput="setText('email',this.value)">
+          <input class="form-control mb-2" placeholder="Address"
+                 oninput="setText('address',this.value)">
+          <input class="form-control mb-2" placeholder="LinkedIn"
+                 oninput="setText('linkedin',this.value)">
+
+          <textarea class="form-control mb-2" placeholder="Career Objective"
+                    oninput="setText('objective',this.value)"></textarea>
+
+          <textarea class="form-control mb-2" placeholder="Professional Skills"
+                    oninput="setText('skills',this.value)"></textarea>
+
+          <textarea class="form-control mb-2" placeholder="Achievements & Certificates"
+                    oninput="setText('achievements',this.value)"></textarea>
+
+          <textarea class="form-control mb-3" placeholder="Interests & Hobbies"
+                    oninput="setText('interests',this.value)"></textarea>
+
+          <label class="fw-bold small">Theme Color</label>
+          <input type="color" class="form-control form-control-color mb-3"
+                 onchange="setTheme(this.value)">
+
+          <label class="fw-bold small">Background Color</label>
+          <input type="color" class="form-control form-control-color mb-3"
+                 onchange="setBg(this.value)">
+
+          <label class="fw-bold small">Upload Photo</label>
+          <input type="file" class="form-control mb-3"
+                 accept="image/*" onchange="loadImage(event)">
+
+          <button class="btn btn-success w-100" onclick="downloadResume()">
+            Download Resume
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RIGHT: RESUME ================= -->
+    <div class="col-12 col-lg-8">
+
+      <div class="print-sheet">
+        <div class="resume" id="resume">
+
+          <div class="resume-header">
+            <img id="photo">
+            <div class="resume-info">
+              <h1 id="name">Your Name</h1>
+              <p>📞 <span id="phone"></span></p>
+              <p>✉️ <span id="email"></span></p>
+              <p>📍 <span id="address"></span></p>
+              <p>💼 <span id="linkedin"></span></p>
+            </div>
+          </div>
+
+          <h2>Career Objective</h2>
+          <p id="objective"></p>
+
+          <h2>Academic & Educational Qualification</h2>
+          <table id="addrow">
+            <tr>
+              <th>Course</th>
+              <th>Institution</th>
+              <th>Board</th>
+              <th>Year</th>
+              <th>%</th>
+            </tr>
+          </table>
+
+          <h2>Professional Skills</h2>
+          <p id="skills"></p>
+
+          <h2>Achievements & Certificates</h2>
+          <p id="achievements"></p>
+
+          <h2>Interests & Hobbies</h2>
+          <p id="interests"></p>
+
+          <div class="resume-footer">
+            <p>Signature: ____________</p>
+            <p>Date: ____________</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+function setText(id, value) {
+  document.getElementById(id).innerText = value;
+}
+
+function setTheme(color) {
+  document.querySelectorAll(".resume h2").forEach(h => h.style.background = color);
+  document.querySelector(".resume-header").style.borderColor = color;
+  document.querySelector(".resume-header img").style.borderColor = color;
+}
+
+function setBg(color) {
+  document.getElementById("resume").style.background = color;
+}
+
+function loadImage(e) {
+  document.getElementById("photo").src = URL.createObjectURL(e.target.files[0]);
+}
+
+/* Auto-scale to fit one page */
+function autoScaleResume() {
+  const resume = document.getElementById("resume");
+  resume.style.transform = "scale(1)";
+
+  const A4_HEIGHT_PX = 1122;
+  const height = resume.scrollHeight;
+
+  if (height > A4_HEIGHT_PX) {
+    const scale = A4_HEIGHT_PX / height;
+    resume.style.transform = `scale(${scale})`;
+  }
+}
+
+function downloadResume() {
+  autoScaleResume();
+  setTimeout(() => window.print(), 100);
+}
+</script>
+
+{% endblock %}

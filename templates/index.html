@@ -1,193 +1,216 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
 {% block content %}
+
+<!-- ================= HERO SECTION ================= -->
 <div class="bg-white">
-    <div class="container-fluid">
-        <div class="row pt-3 pt-md-5 pb-5 hero-wrapper">
+  <div class="container-fluid px-4 px-md-5">
 
-    <!-- Decorative background (RIGHT SIDE ONLY) -->
-    <div class="hero-bg"></div>
+    <div class="row pt-4 pt-md-5 pb-5 gx-4 justify-content-center align-items-start">
 
-            <div class="col-12 col-lg-6 offset-lg-1 px-4 px-md-0">
+      <!-- ================= Resume Analyzer ================= -->
+      <div class="col-12 col-lg-6">
 
-                <h6 class="text-success fw-bold">RESUME ANALYSER</h6>
-                <h1 class="display-3 display-lg-3 fw-bold">Is your resume good enough?</h1>
+        <!-- Text block (same width on both sides) -->
+        <div style="max-width: 40rem;">
+          <h6 class="text-success fw-bold">RESUME ANALYSER</h6>
 
-                <div class="mb-4
-">
-                    <p class="text-muted pr-md-5" style="font-size:17px;">
-                        A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform and get you interview callbacks
-                    </p>
-                </div>
+          <h1 class="display-3 fw-bold">
+            Is your resume good enough?
+          </h1>
 
-                <div class="card border border-dashed border-success rounded text-center px-3 px-md-5 py-4 shadow-sm mx-auto mx-lg-0"
-                     style="width: 100%; max-width: 32rem; border-style: dashed !important;">
+          <p class="text-muted mb-4 mr-4" style="font-size:17px;">
+            A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready
+            to perform and get you interview callbacks.
+          </p>
+        </div>
 
-                    <div class="px-2 py-2 d-flex flex-column gap-4 gap-md-5">
-                        <div class="mb-2 text-center">
-                            <p class="card-text" style="color:#36454F;">Drop your resume here or choose a file. PDF & DOCX only. Max 2MB file size.</p>
-                        </div>
+        <!-- Card (slightly narrower than text) -->
+        <div style="max-width: 30rem;">
 
-                        <div class="mb-2">
-                            <form action="/" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <label for="fileInput" class="btn btn-success btn-lg px-4 w-100 w-md-auto">
-                                    <i class="fa-solid fa-cloud-arrow-up mr-2"></i>Upload Your Resume
-                                </label>
-                                {{ form.resume_file }}
-                            </form>
-                        </div>
+          <div class="card border border-success border-dashed rounded text-center px-4 px-md-5 py-4 shadow-sm">
 
-                        <div class="text-muted">
-                            <h6 class="text-center mb-0"><i class="fa-solid fa-lock me-1"></i> Privacy guaranteed</h6>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex flex-column gap-4 gap-md-5">
+
+              <p class="card-text" style="color:#36454F;">
+                Drop your resume here or choose a file. PDF & DOCX only. Max 2MB file size.
+              </p>
+
+              <form action="/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="fileInput" class="btn btn-success btn-lg px-4 w-100 w-md-auto">
+                  <i class="fa-solid fa-cloud-arrow-up mr-2"></i>Upload Your Resume
+                </label> {{ form.resume_file }}
+              </form>
+
+              <h6 class="text-muted mb-0">
+                <i class="fa-solid fa-lock me-1"></i>
+                Privacy guaranteed
+              </h6>
 
             </div>
-
-            <div class="row pt-3 pt-md-5 pb-5 border-top">
-                <div class="col-12 col-lg-6 offset-lg-5 px-4 px-md-0">
-
-                    <h6 class="text-success fw-bold">RESUME BUILDER</h6>
-                    <h1 class="display-3 display-lg-3 fw-bold">Don't have a resume yet?</h1>
-
-                    <div class="mb-4">
-                        <p class="text-muted pr-md-5" style="font-size:17px;">
-                            Create a professional, ATS-friendly resume from scratch using our AI-powered builder.
-                            Designed to help you stand out and land your dream job.
-                        </p>
-                    </div>
-
-                    <div class="card border border-dashed border-success rounded text-center px-3 px-md-5 py-4 shadow-sm mx-auto mx-lg-0"
-                         style="width: 100%; max-width: 32rem; border-style: dashed !important;">
-
-                        <div class="px-2 py-2 d-flex flex-column gap-4 gap-md-5">
-                            <div class="mb-2 text-center">
-                                <p class="card-text" style="color:#36454F;">
-                                    No templates needed. Just fill in your details and let our AI do the heavy lifting.
-                                </p>
-                            </div>
-
-                            <div class="mb-2">
-                                <a href="{% url 'resume_builder' %}" class="btn btn-success btn-lg px-4 w-100">
-                                    <i class="fa-solid fa-pen-to-square me-2"></i>Build Your Resume
-                                </a>
-                            </div>
-
-                            <div class="text-muted">
-                                <h6 class="text-center mb-0"><i class="fa-solid fa-wand-magic-sparkles me-1"></i> AI-Powered Design</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+          </div>
 
         </div>
+      </div>
+
+      <!-- ================= Resume Builder ================= -->
+      <div class="col-12 col-lg-6 mt-5 mt-lg-0">
+
+        <!-- Text block (same width as left side) -->
+        <div style="max-width: 40rem;">
+          <h6 class="text-success fw-bold">RESUME BUILDER</h6>
+
+          <h1 class="display-3 fw-bold">
+            Don't you have a resume yet?
+          </h1>
+
+          <p class="text-muted mb-4" style="font-size:17px;">
+            Create a professional, ATS-friendly resume from scratch using our AI-powered builder.
+            Designed to help you stand out and land your dream job.
+          </p>
+        </div>
+
+        <!-- Card (same width as left card) -->
+        <div style="max-width: 30rem;">
+
+          <div class="card border border-success border-dashed rounded text-center px-4 px-md-5 py-4 shadow-sm">
+
+            <div class="d-flex flex-column gap-4 gap-md-5">
+
+              <p class="card-text" style="color:#36454F;">
+                No templates needed. Just fill in your details and let our AI do the heavy lifting.
+              </p>
+
+              <a href="{% url 'resume_builder' %}" class="btn btn-success btn-lg w-100">
+                <i class="fa-solid fa-pen-to-square me-2"></i>
+                Build Your Resume
+              </a>
+
+              <h6 class="text-muted mb-0 pt-2">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                AI-Powered Design
+              </h6>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-
-
-
 
     <!-- New Section: Features -->
-<div class="bg-white py-3">
-  <div class="container-fluid px-4 px-md-5">
-    <div class="text-center mb-4">
-      <h2 class="fw-bold">What This Resume AI Checks</h2>
-      <p class="text-muted">A deep resume analysis beyond basic grammar.</p>
+    <div class="bg-white py-3">
+      <div class="container-fluid px-4 px-md-5">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold">What Resume AI Helps You Do</h2>
+          <p class="text-muted">From building resumes from scratch to deep AI-powered analysis.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-4 mb-4">
+            <div class="p-4 border rounded">
+              <h5 class="fw-bold text-center">Resume Building from Scratch</h5>
+              <p class="small text-muted">
+                Generates a complete, professional resume using simple inputs like skills, education,
+                and experience — no prior resume required.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 mb-4">
+            <div class="p-4 border rounded">
+              <h5 class="fw-bold text-center">ATS Compatibility Check</h5>
+              <p class="small text-muted">
+                Analyzes structure, clarity, and keyword usage to ensure your resume is readable
+                by Applicant Tracking Systems and recruiters.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 mb-4">
+            <div class="p-4 border rounded">
+              <h5 class="fw-bold text-center">Content Quality Review</h5>
+              <p class="small text-muted">
+                Identifies weak, repetitive, or unclear bullet points and suggests improvements
+                to make each statement impactful and meaningful.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 offset-md-2 mb-4">
+            <div class="p-4 border rounded">
+              <h5 class="fw-bold text-center">Formatting & Structure</h5>
+              <p class="small text-muted">
+                Checks spacing, section order, readability, and layout to ensure a clean,
+                well-organized resume that is easy to scan.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="p-4 border rounded ">
+              <h5 class="fw-bold text-center">Grammar & Language Accuracy</h5>
+              <p class="small text-muted">
+                Improves grammar, tense consistency, and wording to maintain a professional,
+                clear, and polished tone throughout the resume.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-      <div class="col-12 col-md-4 mb-4">
-        <div class="p-4 border rounded h-100">
-          <h5 class="fw-bold  text-center">ATS Compatibility</h5>
-          <p class="small text-muted">
-            Checks impact, clarity, repetition, and weak bullet points to ensure each statement is clear, concise, Consistent, focused, Reliable and effective.
-          </p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-4 mb-4">
-        <div class="p-4 border rounded h-100">
-          <h5 class="fw-bold text-center">Content Quality</h5>
-          <p class="small text-muted">
-            Checks impact, clarity, repetition, and weak bullet points to ensure each statement is concise, non-redundant, and effective.
-          </p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-4 mb-4">
-        <div class="p-4 border rounded h-100">
-          <h5 class="fw-bold text-center">Formatting & Structure</h5>
-          <p class="small text-muted">
-            Detects spacing, section order, readability, and layout issues to ensure a clean, well-structured resume that is easy to scan CV.
-          </p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-4 offset-md-2 mb-4">
-        <div class="p-4 border rounded h-100">
-          <h5 class="fw-bold text-center">Keyword Optimization</h5>
-          <p class="small text-muted">
-            Matches resume keywords with job descriptions to improve relevance, ATS ranking, and alignment with employer expectations.
-          </p>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-4 mb-2">
-        <div class="p-4 border rounded h-100">
-          <h5 class="fw-bold text-center">Grammar & Language</h5>
-          <p class="small text-muted">
-            Fixes grammar, tense issues, and wording to ensure clear and consistent language throughout the resume effectively.
-          </p>
-        </div>
-      </div>
-
-    </div>
   </div>
 </div>
 
-
-
-
-
-    <div class="bg-light py-3 border-top border-bottom">
-      <div class="container-fluid px-4 px-md-5">
-        <div class="text-center mb-3">
+    <div class="bg-light border-top border-bottom">
+      <div class="container-fluid">
+        <div class="text-center mb-4 mt-3">
             <h2 class="fw-bold">How It Works</h2>
-            <p class="text-muted">Get your AI-powered feedback in three simple steps.</p>
+            <p class="text-muted">Build a resume from scratch or analyze an existing one in three simple steps.</p>
         </div>
-        <div class="row text-center g-4 justify-content-center">
+        <div class="row text-center justify-content-center">
             <div class="col-12 col-md-4">
-                <div class="p-4">
+                <div class="px-4">
                     <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow" style="width: 60px; height: 60px;">
                         <i class="fa-solid fa-1 fs-4"></i>
                     </div>
-                    <h5 class="fw-bold">Upload File</h5>
-                    <p class="small text-muted">Click the upload button and choose your PDF or DOCX resume from your device.</p>
+                    <h5 class="fw-bold">Enter Details or Upload Resume</h5>
+                    <p class="small text-muted">
+                      Start by entering your skills, education, and experience to build a resume from scratch,
+                      or upload an existing PDF or DOCX resume for analysis.
+                    </p>
                 </div>
             </div>
             <div class="col-12 col-md-4">
-                <div class="p-4">
+                <div class="px-4">
                     <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow" style="width: 60px; height: 60px;">
                         <i class="fa-solid fa-2 fs-4"></i>
                     </div>
-                    <h5 class="fw-bold">Review Text</h5>
-                    <p class="small text-muted">Check the automated text extraction to ensure all your data is captured correctly in the preview.</p>
+                    <h5 class="fw-bold">Review Generated Content</h5>
+                    <p class="small text-muted">
+                      Preview the generated or extracted resume content to ensure all information
+                      is structured correctly and accurately represented.
+                    </p>
                 </div>
             </div>
-            <div class="col-12 col-md-4">
-                <div class="p-4">
+            <div class="col-12 col-md-4 mb-2">
+                <div class="px-4">
                     <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow" style="width: 60px; height: 60px;">
                         <i class="fa-solid fa-3 fs-4"></i>
                     </div>
-                    <h5 class="fw-bold">AI Analysis</h5>
-                    <p class="small text-muted">Click 'Analyze using AI' to receive a detailed, interactive report on your strengths and weaknesses.</p>
+                    <h5 class="fw-bold">AI Feedback & Improvements</h5>
+                    <p class="small text-muted">
+                      Use AI-powered analysis to receive actionable feedback, improvements,
+                      and suggestions to strengthen your resume and make it job-ready.
+                    </p>
                 </div>
             </div>
         </div>
       </div>
     </div>
-</div>
+
+
 {% endblock %}

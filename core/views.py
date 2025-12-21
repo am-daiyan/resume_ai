@@ -27,9 +27,6 @@ def home(request):
         form=resume_upload()
     return render(request,"index.html",{'form':form})
 
-def rough(requests):
-    return render(requests,"rough.html")
-
 def about(request):
     return render(request,"about.html")
 
@@ -84,59 +81,59 @@ def user_logout(request):
     messages.success(request, "You have been logged out successfully.")
     return redirect('home')
 
-def preview(request,id):
-    prev=resume.objects.get(id=id)
-    file_path=prev.resume_file.path
-    extracted_text=extract_text(file_path)
-    ai_output=None
+def preview(request, id):
+    prev = resume.objects.get(id=id)
+    pdf_url = prev.resume_file.url
+    extracted_text = extract_text(prev.resume_file.path)
+    ai_output = None
 
-    if request.method=="POST":
-        user_prompt=USER_TEMPLATE["content"].format(resume_text=extracted_text)
+    if request.method == "POST":
+        user_prompt = USER_TEMPLATE["content"].format(
+            resume_text=extracted_text
+        )
 
         url = "https://openrouter.ai/api/v1/chat/completions"
         headers = {
-            "Authorization": f"Bearer {os.environ.get('OPENROUTER_API_KEY','')}",
-            "Content-Type": "application/json"
+            "Authorization": f"Bearer {os.environ.get('OPENROUTER_API_KEY', '')}",
+            "Content-Type": "application/json",
         }
 
         data = {
             "model": "deepseek/deepseek-r1-0528:free",
-            "max_tokens":8000,
+            "max_tokens": 8000,
             "messages": [
                 SYSTEM_PROMPT,
-                {"role": "user", "content": user_prompt}
-            ]
+                {"role": "user", "content": user_prompt},
+            ],
         }
 
         resp = requests.post(url, headers=headers, json=data)
-        res_json = resp.json()
-        if "choices" in res_json:
-            raw_output = res_json["choices"][0]["message"]["content"]
-            ai_output = markdown.markdown(
-                raw_output,
-                extensions=["extra"]
-            )
+
+        try:
+            res_json = resp.json()
+        except Exception:
+            ai_output = "AI returned an invalid response."
         else:
-            ai_output = "Error: Could not get AI response"
-    return render(request, "preview.html", {
-        "text": extracted_text,
-        "ai_output": ai_output
-    })
+            if resp.status_code != 200:
+                ai_output = f"AI API Error ({resp.status_code}): {res_json}"
+            elif "choices" not in res_json:
+                ai_output = f"Unexpected AI response: {res_json}"
+            else:
+                raw_output = res_json["choices"][0]["message"]["content"]
+                ai_output = markdown.markdown(
+                    raw_output,
+                    extensions=["extra"]
+                )
 
-def list(request):
-    if request.method=="POST":
-        form=student_details(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request,"Student added successfully.")
-            return redirect('student_d')
-    else:
-        form=student_details()
-    return render(request,'student_list.html',{'form':form})
+    return render(
+        request,
+        "preview.html",
+        {
+            "pdf_url": pdf_url,   # used by iframe
+            "ai_output": ai_output
+        }
+    )
 
-def student_d(requests):
-    form=details.objects.all()
-    return render(requests,"student_details.html",{'form':form})
 
 
 def contact_us(request):

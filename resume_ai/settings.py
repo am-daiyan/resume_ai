@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY","bzt&h9=i%+cwkg&=n^g46u+77(4q_j^qq7+nwt8n3nsop)yvgt")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['Daiyan143.pythonanywhere.com']
+ALLOWED_HOSTS = ['Daiyan143.pythonanywhere.com',"localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -145,7 +145,7 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 
 load_dotenv()
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_API_KEY = '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'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
