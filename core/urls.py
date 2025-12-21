@@ -15,5 +15,6 @@ urlpatterns = [
     path('rough/', views.rough, name='rough'),
     path('student_d/', views.student_d, name='student_d'),
     path('preview/<int:id>/', views.preview, name='preview'),
+    path('builder/', views.resume_builder, name='resume_builder'),
 
 ]

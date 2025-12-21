@@ -174,4 +174,6 @@ def contact_us(request):
 
     return render(request, "contact-us.html", {'form': form, 'developer_info': developer_info})
 
+def resume_builder(request):
+    return render(request, "resume_builder.html")
 
